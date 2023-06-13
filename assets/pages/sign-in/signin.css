@@ -79,7 +79,7 @@ body {
 
 .form-signin {
   width: 100%;
-  max-width: 330px;
+  width: 330px;
   padding: 15px;
   margin: auto;
   align-items: center;
@@ -93,16 +93,10 @@ body {
   z-index: 2;
 }
 
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
 
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
+.form-signin input[id="password"] {
   border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 
@@ -141,14 +135,20 @@ a.entr-btn:hover{
 
 .dark-form{
   border: 0;
+  border-radius: 13px;
   background-color: var(--dark-slate-gray);
   box-shadow: 4px 4px 4px 0 var(--transparent-black);
-  border-radius: 13px;
   font-family: var(--inter-32-regular-family);
   color: var(--white);
+
 }
 
 .dark-form:focus{
   background-color: var(--dark-slate-gray);
     color:  var(--white);
+}
+.form-control{
+  -webkit-border-radius: 13px;
+     -moz-border-radius: 13px;
+          border-radius: 13px;
 }

@@ -14,7 +14,8 @@
 
     <!-- Bootstrap core CSS -->
 <link href="/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+<!-- Bootstrap Font Icon CSS -->
+<link rel="stylesheet" href="/assets/fonts/font/bootstrap-icons.min.css">
     <!-- Favicons -->
 <!--<link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png" sizes="180x180">-->
 <!--<link rel="icon" href="/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">-->
@@ -47,30 +48,53 @@
   <body class="text-center">
 
     <div class ="container">
-      <main class="form-signin" >
-        <form action="" method="post" class="container"> <!--put action and method-->
-          <img class="mb-4" src="/assets/img/favicons/user_icon.svg" alt="User icon" width="150" height="150">
-
-          <div class="form-floating">
-            <input type="email" class="form-control dark-form" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput" class="dark-field-text">Логин</label>
+      <div class="row justify-content-center">
+        <div class="col-6">
+          <main class="form-signin" >
+            <form action="" method="post"> <!--put action and method-->
+              <img class="mb-4" src="/assets/img/favicons/user_icon.svg" alt="User icon" width="150" height="150">
+              <div class="form-floating mb-3">
+                <input type="login" class="form-control dark-form" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput" class="dark-field-text">Логин</label>
+              </div>
+              <div class="input-group mb-3">
+                <div class="form-floating flex-fill">
+                  <input type="password" class="form-control dark-form mb-0" id="password" placeholder="Password" >
+                  <label for="password" class="dark-field-text">Пароль</label>
+                </div class="dark-form">
+                <button class="btn btn-outline-secondary dark-form border-left-0" type="button" id="togglePassword">
+                  <i class="bi-eye dark-field-text" id="show_eye"></i>
+                </button>
+              </div>
+              <div class="checkbox mb-5">
+                <label>
+                  <input type="checkbox" value="remember-me" class = "dark-checkbox">
+                  <label class="form-check-label dark-field-text" for="">Запомнить меня</label>
+                </label>
+              </div>
+                <a type="button" class="entr-btn" id="btn-signin" role="button" ><p class="btn-text">Вход</p></a>
+              <p class="mt-5 mb-3 text-muted dark-field-text">&copy; 2023</p>
+            </form>
+          </main>
           </div>
-          <br>
-          <div class="form-floating">
-            <input type="password" class="form-control dark-form" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword" class="dark-field-text">Пароль</label>
-          </div>
-
-          <div class="checkbox mb-3">
-            <label>
-              <input type="checkbox" value="remember-me" class = "dark-checkbox">
-              <label class="form-check-label dark-field-text" for="">Запомнить меня</label>
-            </label>
-          </div>
-            <a type="button" class="entr-btn" id="btn-signin" role="button" ><p class="btn-text">Вход</p></a>
-          <p class="mt-5 mb-3 text-muted dark-field-text">&copy; 2023</p>
-        </form>
-      </main>
+        </div>
     <div>
+
+      <script>
+        const passwordInput = document.getElementById('password');
+        const togglePasswordButton = document.getElementById('togglePassword');
+        const showEyeIcon = document.getElementById('show_eye');
+
+        togglePasswordButton.addEventListener('click', function() {
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            showEyeIcon.classList.replace('bi-eye', 'bi-eye-slash');
+          } else {
+            passwordInput.type = 'password';
+            showEyeIcon.classList.replace('bi-eye-slash', 'bi-eye');
+          }
+        });
+    </script>
+
   </body>
 </html>

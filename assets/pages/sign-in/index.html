@@ -13,7 +13,7 @@
 
 
     <!-- Bootstrap core CSS -->
-<link href="/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <!-- Bootstrap Font Icon CSS -->
 <link rel="stylesheet" href="/assets/fonts/font/bootstrap-icons.min.css">
     <!-- Favicons -->
@@ -77,12 +77,14 @@
           </nav>
     </header>
 
+    <!--Background-->
 
-    <div class ="container ">
-      <div class="row justify-content-center">
+    <!--Singin form-->
+    <div class ="container-fluid flex" id="parallax">
+      <div class="row justify-content-center align-items-center" style="margin-top: 200px;"> <!--ИСПРАВИТЬ!!!-->
         <div class="col-6">
           <main class="form-signin" >
-            <form action="" method="post"> <!--put action and method-->
+            <form action="" method="post" id="user-form"> <!--put action and method-->
               <img class="mb-4" src="/assets/img/favicons/user_icon.svg" alt="User icon" width="150" height="150">
               <div class="form-floating mb-4">
                 <input type="login" class="form-control dark-form" id="floatingInput" placeholder="name@example.com">
@@ -103,29 +105,16 @@
                   <label class="form-check-label dark-field-text" for="checkbox">Запомнить меня</label>
                 </label>
               </div>
-                <a type="button" class="btn btn-primary btn-lg entr-btn bright-btn" id="btn-signin" role="button" style="height:4rem;"><p class="btn-text" style="font-size:1.55rem;">Вход</p></a>
-              <p class="mt-5 mb-3 text-muted dark-field-text mb-auto">&copy; 2023</p>
+              <a type="button" class="btn btn-primary btn-lg entr-btn bright-btn" id="btn-signin" role="button" style="height:4rem;"><p class="btn-text" style="font-size:1.55rem;">Вход</p></a>
+              <p class="mt-3 mb-3 text-muted dark-field-text" style="font-size: 13px;">Защита от спама reCAPTCHA 
+              <a href="https://policies.google.com/privacy">Конфиденциальность</a> и
+              <a href="https://policies.google.com/terms">Условия использования</a></p>
             </form>
           </main>
-          </div>
         </div>
-    <div>
-
-      <script>
-        const passwordInput = document.getElementById('password');
-        const togglePasswordButton = document.getElementById('togglePassword');
-        const showEyeIcon = document.getElementById('show_eye');
-
-        togglePasswordButton.addEventListener('click', function() {
-          if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            showEyeIcon.classList.replace('bi-eye', 'bi-eye-slash');
-          } else {
-            passwordInput.type = 'password';
-            showEyeIcon.classList.replace('bi-eye-slash', 'bi-eye');
-          }
-        });
-    </script>
-
+      </div>
+    </div>
+      <script src="/assets/js/parallax.js"></script>
+      <script src="/assets/js/eye.js"></script>
   </body>
 </html>

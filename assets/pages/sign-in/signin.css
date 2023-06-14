@@ -61,7 +61,6 @@ body {
 /*header*/
 .navbar-dark{
   background-color: var(--dark-gray);
-  height: 100px;
   box-shadow: 0 4px 4px 0 var(--transparent-black);
   max-width: 100rem;
   border-radius: 0 0 30px 30px;
@@ -76,7 +75,7 @@ body {
 /*form*/
 .form-signin {
   width: 100%;
-  width: 330px;
+  max-width: 330px;
   padding: 15px;
   margin: auto;
   align-items: center;
@@ -89,7 +88,6 @@ body {
 .form-signin input[id="password"] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  display:block;
 }
 
 

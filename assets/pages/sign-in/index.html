@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Fascinat0r, Nanatic">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>Sign in - BAZA</title>
+    <title>Sign In | BAZA</title>
 
     <link rel="canonical" href="">
 
@@ -22,7 +22,7 @@
 <!--<link rel="icon" href="/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">-->
 <!--<link rel="manifest" href="/assets/img/favicons/manifest.json">-->
 <!--<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">-->
-<!--<link rel="icon" href="/assets/img/favicons/favicon.ico">-->
+<link rel="gazprom-neft-logo-rus" href="/assets/img/favicons/gazprom-neft-logo-rus.svg">
 <meta name="theme-color" content="#7952b3">
 
     <style>
@@ -47,13 +47,44 @@
   </head>
   <body class="text-center">
 
-    <div class ="container">
+    <header>
+      <!-- Фиксированная навигационная панель -->
+          <nav class="navbar navbar-expand-md navbar-dark fixed-top container">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#"><!--Naming--></a>
+              <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                  <li class="nav-item align-self-center">
+                    <a class="nav-link active" aria-current="page" href="#">
+                      <img src="/assets/img/favicons/gazprom-neft-logo-rus.svg" alt="" height="55px" class="d-inline-block mb-2 align-text-top">
+                    </a>
+                  </li>
+                  <li class="nav-item align-self-center">
+                    <a class="nav-link active" aria-current="page" href="#"><!--Какие то ещё странички в хедере--></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#"><!--Какие то ещё странички в хедере--></a>
+                  </li>
+                  <!--<li class="nav-item"........ <!-->
+                </ul>
+                <form class="d-flex me-4">
+                  <input class="form-control me-1 dark-form" style="box-shadow:none;" type="search" placeholder="Поиск" aria-label="Поиск">
+                  <button class="btn btn-outline-primary dark-form bright-btn" style="box-shadow:none;" type="submit"> <i class="bi-search" aria-hidden="true"></i>  </button>
+                </form>
+                <button type="button" class="btn btn-primary bright-btn" style="height:36px;" id="btn-signin" role="button"><p>Регистрация</p></button>
+              </div>
+            </div>
+          </nav>
+    </header>
+
+
+    <div class ="container ">
       <div class="row justify-content-center">
         <div class="col-6">
           <main class="form-signin" >
             <form action="" method="post"> <!--put action and method-->
               <img class="mb-4" src="/assets/img/favicons/user_icon.svg" alt="User icon" width="150" height="150">
-              <div class="form-floating mb-3">
+              <div class="form-floating mb-4">
                 <input type="login" class="form-control dark-form" id="floatingInput" placeholder="name@example.com">
                 <label for="floatingInput" class="dark-field-text">Логин</label>
               </div>
@@ -69,11 +100,11 @@
               <div class="checkbox mb-5">
                 <label>
                   <input type="checkbox" value="remember-me" class = "dark-checkbox">
-                  <label class="form-check-label dark-field-text" for="">Запомнить меня</label>
+                  <label class="form-check-label dark-field-text" for="checkbox">Запомнить меня</label>
                 </label>
               </div>
-                <a type="button" class="entr-btn" id="btn-signin" role="button" ><p class="btn-text">Вход</p></a>
-              <p class="mt-5 mb-3 text-muted dark-field-text">&copy; 2023</p>
+                <a type="button" class="btn btn-primary btn-lg entr-btn bright-btn" id="btn-signin" role="button" style="height:4rem;"><p class="btn-text" style="font-size:1.55rem;">Вход</p></a>
+              <p class="mt-5 mb-3 text-muted dark-field-text mb-auto">&copy; 2023</p>
             </form>
           </main>
           </div>

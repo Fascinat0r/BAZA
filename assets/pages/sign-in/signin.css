@@ -56,6 +56,7 @@ body {
   background-position: center;
   background-position: 50% 50%;
   background-attachment:fixed;
+  background-size: 125%;
 }
 
 /*header*/

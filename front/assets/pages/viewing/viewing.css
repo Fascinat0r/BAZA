@@ -1,0 +1,192 @@
+/* Inter REgular */
+@font-face {
+	font-family: 'Inter'; 
+	src: url(/front/assets/fonts/Inter-Regular.otf);
+}
+ 
+/* Жирный */
+@font-face {
+	font-family: 'Inter bold'; 
+	src: url(/front/assets/fonts/Inter-Bold.otf);
+}
+
+:root {
+  /* Colors */
+  --dark-gray: rgba(45,45,56,0.75);
+  --dark-slate-gray: rgba(45, 45, 56, 1);
+  --dark-slate-gray-highlighted: rgba(39, 39, 48, 1);
+  --dim-gray: rgba(101, 101, 116, 1);
+  --blackish-gray: rgba(67, 67, 81, 1);
+  --steel-blue: rgba(26, 127, 195, 1);
+  --steel-blue-highlighted: rgba(43,153,227,1);
+  --transparent-black: rgba(0, 0, 0, 0.25);
+  --transparent-black-highlighted: rgba(0, 0, 0, 0.1);
+  --transparent-white: rgba(255, 255, 255, 0.5);
+  --white: rgba(255, 255, 255, 1);
+  --black: rgba(0, 0, 0, 1);
+
+  /* Typographies */
+  --default-font-regular: "Inter";
+
+}
+html,
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+body {
+  min-width: 30rem;
+  min-height: 100vh;
+  margin:0;
+  background: linear-gradient(13deg,#6e2634, #2a5074);
+  background-attachment:fixed;
+
+
+  display: flex;
+  align-items: center;
+  padding-top: 100px;
+  padding-bottom: 40px;
+}
+/*background*/
+
+/*header*/
+.navbar-dark{
+  background-color: var(--dark-gray);
+  box-shadow: 0 4px 4px 0 var(--transparent-black);
+  max-width: 100rem;
+  border-radius: 0 0 30px 30px;
+  /*padding: 0 30px 0 30px;*/
+}
+
+.header-button{
+  background-color: var(--steel-blue);
+  border-radius: 43px;
+}
+/*form*/
+.entr-btn {
+  width: fit-content;
+  padding: 12px 64px;
+  box-shadow: 0 4px 4px 0 var(--transparent-black);
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.bright-btn{
+  border: 0;
+  border-radius: 43px;
+  background-color: var(--steel-blue);
+  color: var(--white);
+  box-shadow:none;
+  background-color:#434351
+}
+.bright-btn:hover{
+  box-shadow:  0 4px 8px 0 var(--transparent-black);
+  background-color: var(--steel-blue-highlighted);
+}
+.bright-btn:active{
+  box-shadow: 0 0 0 0;
+  box-shadow: var(--transparent-white);
+}
+
+.btn-text {
+  color: var(--white);
+  font-family: var(--default-font-regular);
+}
+
+.dark-field-text{
+  color: var(--white);
+  align-self: stretch;
+  font-family: var(--inter-25-regular-family);
+}
+.light-field-text{
+  color: var(--transparent-black);
+  align-self: stretch;
+  font-family: var(--inter-25-regular-family);
+}
+
+.dark-form{
+  min-width: fit-content;
+  border: 0;
+  border-radius: 13px;
+  background-color: var(--dark-slate-gray);
+  box-shadow: 0 0 0 0;
+  font-family: var(--default-font-regular);
+  color: var(--white);
+}
+
+.bright-form{
+  border: 0;
+  border-radius: 13px;
+  background-color: #434351;
+  box-shadow: 0 0 0 0;
+  font-family: var(--default-font-regular);
+  color: var(--black);
+
+}
+
+.dark-box{
+  border: 0;
+  border-radius: 30px;
+  background-color: var(--dark-slate-gray);
+  box-shadow: 4px 4px 4px 0 var(--transparent-black);
+  font-family: var(--default-font-regular);
+  color: var(--white);
+  padding: 1rem;
+}
+.bright-box{
+  border: 0;
+  border-radius: 30px;
+  background-color: var(--blackish-gray);
+  box-shadow: 4px 4px 4px 0 var(--transparent-black);
+  font-family: var(--default-font-regular);
+  color: var(--white);
+  padding: 1rem;
+}
+/*left list box*/
+.round-btn{
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  text-align: center;
+  box-shadow:none;
+  background-color:var(--blackish-gray);
+}
+.round-btn i {
+  color: var(--steel-blue);
+  font-size: 1.5rem;
+}
+.round-btn:hover i{
+  color: var(--dark-gray);
+}
+
+.sdfsdfsdfsdf{
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.list-group{
+  border-radius: 13px;
+}
+.list-group-item{
+  border-radius: 13px;
+  background-color: var(--dark-slate-gray);
+  box-shadow: 0 0 0 0;
+  font-family: var(--default-font-regular);
+  color: var(--white);
+}
+
+.table{
+  color: var(--white);
+}
+
+#carouselExampleCaptions .carousel-item img {  
+  object-fit: contain;
+  object-position: center;
+  overflow: hidden;
+  height:25vh;
+}

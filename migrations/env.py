@@ -5,7 +5,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from app.config import DB_HOST, DB_PORT, DB_USER, DB_NAME, DB_PASS
-from app.models import Base
+from app.models import models
 
 # sys.path.append(os.path.join(sys.path[0], 'app'))
 
@@ -29,7 +29,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = Base.metadata
+target_metadata = models.Base.metadata
 
 
 # other values from the config, defined by the needs of env.py,

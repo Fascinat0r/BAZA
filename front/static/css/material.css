@@ -1,13 +1,13 @@
 /* Inter REgular */
 @font-face {
 	font-family: 'Inter'; 
-	src: url(/front/assets/fonts/Inter-Regular.otf);
+	src: url('/fonts/Inter-Regular.otf');
 }
  
 /* Жирный */
 @font-face {
 	font-family: 'Inter bold'; 
-	src: url(/front/assets/fonts/Inter-Bold.otf);
+	src: url('/fonts/Inter-Bold.otf');
 }
 
 :root {
@@ -108,7 +108,7 @@ body {
 .dark-form{
   min-width: fit-content;
   border: 0;
-  border-radius: 13px;
+  border-radius: 13px; 
   background-color: var(--dark-slate-gray);
   box-shadow: 0 0 0 0;
   font-family: var(--default-font-regular);
@@ -189,4 +189,8 @@ body {
   object-position: center;
   overflow: hidden;
   height:25vh;
+}
+/*Dataset*/
+input[list="datalistOptions"]::-webkit-calendar-picker-indicator {
+  display: none !important;
 }

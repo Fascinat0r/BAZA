@@ -2,9 +2,13 @@ from datetime import datetime
 
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
 from sqlalchemy import Table, Column, Integer, String, TIMESTAMP, ForeignKey, JSON, Boolean
+from sqlalchemy.orm import DeclarativeBase, relationship
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.models import Base
+
+class Base(DeclarativeBase):
+    pass
+
 
 role = Table(
     "role",
@@ -13,21 +17,6 @@ role = Table(
     Column("name", String, nullable=False),
     Column("permissions", JSON),
 )
-
-
-# user = Table(
-#     "user",
-#     Base.metadata,
-#     Column("id", Integer, primary_key=True),
-#     Column("email", String, nullable=False),
-#     Column("username", String, nullable=False),
-#     Column("registered_at", TIMESTAMP, default=datetime.utcnow),
-#     Column("role_id", Integer, ForeignKey(role.c.id)),
-#     Column("hashed_password", String, nullable=False),
-#     Column("is_active", Boolean, default=True, nullable=False),
-#     Column("is_superuser", Boolean, default=False, nullable=False),
-#     Column("is_verified", Boolean, default=False, nullable=False),
-# )
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):
@@ -50,4 +39,36 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     )
 
 
+class ComponentAssociation(Base):
+    __tablename__ = 'component_association'
+    parent_id = mapped_column(Integer, ForeignKey('component.id'), primary_key=True)
+    child_id = mapped_column(Integer, ForeignKey('component.id'), primary_key=True)
+
+
+class Component(Base):
+    __tablename__ = 'component'
+
+    id = mapped_column(Integer, primary_key=True)
+    name = mapped_column(String, nullable=False)
+    description = mapped_column(String)
+    creator_id = mapped_column(Integer)
+    date = mapped_column(TIMESTAMP)
+    data = mapped_column(JSON)
+
+
+class System(Base):
+    __tablename__ = 'system'
+    parent_id = mapped_column(Integer, ForeignKey('component.id'), primary_key=True)
+
+
+parents = relationship(
+    'Component',
+    secondary='component_association',
+    primaryjoin='Component.id==ComponentAssociation.child_id',
+    secondaryjoin='Component.id==ComponentAssociation.parent_id',
+    backref='children'
+)
+
 user = User.__tablename__
+component = Component.__tablename__
+componentAssociation = ComponentAssociation.__tablename__

@@ -2,7 +2,7 @@ from fastapi import Request, APIRouter
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-templates = Jinja2Templates(directory="front/templates")
+templates = Jinja2Templates(directory="C:/Users/Юля/source/repos/BAZA/front/templates")
 router = APIRouter(
     tags=["Pages"]
 )

@@ -43,6 +43,7 @@ class ComponentAssociation(Base):
     __tablename__ = 'component_association'
     parent_id = mapped_column(Integer, ForeignKey('component.id'), primary_key=True)
     child_id = mapped_column(Integer, ForeignKey('component.id'), primary_key=True)
+    postfix = mapped_column(String)
 
 
 class Component(Base):
@@ -53,7 +54,7 @@ class Component(Base):
     description = mapped_column(String)
     creator_id = mapped_column(Integer)
     date = mapped_column(TIMESTAMP)
-    data = mapped_column(JSON)
+    data = mapped_column(JSON, nullable=False)
 
 
 class System(Base):
@@ -68,7 +69,3 @@ parents = relationship(
     secondaryjoin='Component.id==ComponentAssociation.parent_id',
     backref='children'
 )
-
-user = User.__tablename__
-component = Component.__tablename__
-componentAssociation = ComponentAssociation.__tablename__

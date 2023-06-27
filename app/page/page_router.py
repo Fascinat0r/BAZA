@@ -8,9 +8,9 @@ router = APIRouter(
 )
 
 
-@router.get("/viewing", response_class=HTMLResponse)
+@router.get("/viewing-save", response_class=HTMLResponse)
 async def read_item(request: Request):
-    return templates.TemplateResponse("viewing.html", {"request": request})
+    return templates.TemplateResponse("viewing_save.html", {"request": request})
 
 
 @router.get("/viewing/", response_class=HTMLResponse)

@@ -4,7 +4,7 @@ from sqlalchemy import select, insert, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_async_session
-from app.models.models import Component, ComponentAssociation
+from app.models.models import Component, ComponentAssociation, MaterialAssociation, Material
 from app.ontomodel.schemas import *
 from app.ontomodel.utils import isComponentWithNameExist, isComponentWithIdExist
 
@@ -21,20 +21,26 @@ async def get_components_by_id(component_id: int, session: AsyncSession = Depend
     result = await session.execute(query)
     component = result.scalars().first()
 
-    query = select(Component).join(ComponentAssociation,
-                                   Component.id == ComponentAssociation.child_id).where(
-        ComponentAssociation.parent_id == component_id)
-    print(query)
-    # session.query(Component).join(
-    #     ComponentAssociation, Component.id == ComponentAssociation.child_id
-    # ).filter(
-    #     ComponentAssociation.parent_id == component_id
-    # ).all()
-    result = await session.execute(query)
     component_dict = component.__dict__
     component_dict['child'] = list()
-    for child in result.scalars().all():
-        component_dict['child'].append({"id": child.id, "name": child.name})
+    component_dict['material'] = list()
+    # узнаём он оконечный или нет
+    if (component_dict['is_final']):
+        query = select(Material).join(MaterialAssociation).where(
+            MaterialAssociation.component_id == component_id)
+
+        result = await session.execute(query)
+        for material in result.scalars().all():
+            component_dict['material'].append({"id": material.id,
+                                               "name": material.name,
+                                               "manufacturer": material.manufacturer})
+    else:
+        query = select(Component.id, Component.name, ComponentAssociation.postfix).join(ComponentAssociation,
+                                                                                        Component.id == ComponentAssociation.child_id).where(
+            ComponentAssociation.parent_id == component_id).order_by(Component.name)
+        result = await session.execute(query)
+        for child in result.all():
+            component_dict['child'].append({"id": child[0], "name": child[1], "postfix": child[2]})
     return component_dict
     # except Exception:
     #     raise HTTPException(status_code=500, detail={
@@ -79,10 +85,20 @@ async def add_specific_component(new_component: componentCreate, session: AsyncS
                 "data": None,
                 "details": f"Component with name \"{heir_name}\" does not exist"
             })
+
+        # Check if all components in names_of_parents exist
+        for parent_name in component_dict['names_of_parents']:
+            if not await isComponentWithNameExist(str(parent_name), session):
+                raise HTTPException(status_code=400, detail={
+                    "status": "error",
+                    "data": None,
+                    "details": f"Component with name \"{parent_name}\" does not exist"
+                })
+
     # If all components exist, create the new component
     stmt = insert(Component).values(name=component_dict['name'], description=component_dict['description'],
                                     creator_id=component_dict['creator_id'], date=component_dict['date'],
-                                    data=component_dict['data'])
+                                    data=component_dict['data'], is_final=False)
     result = await session.execute(stmt)
     new_component_id = result.inserted_primary_key[0]
     await session.commit()
@@ -98,6 +114,25 @@ async def add_specific_component(new_component: componentCreate, session: AsyncS
                 stmt = insert(ComponentAssociation).values(parent_id=new_component_id, child_id=row[0])
                 await session.execute(stmt)
                 await session.commit()  # можно сделать после цикла?
+        except Exception:
+            # УДАЛИТЬ СОЗДАННЫЙ КОМПОНЕНТ
+            raise HTTPException(status_code=500, detail={
+                "status": "error",
+                "data": None,
+                "details": f"It is not possible to create a connection for the component \"{heir_name}\""
+            })
+    g = 0
+    for heir_name in component_dict['names_of_parents']:
+        query = select(Component.id).where(Component.name == str(heir_name)).limit(1)
+        parent = await session.execute(query)
+        await session.commit()
+        try:
+            for row in parent:
+                stmt = insert(ComponentAssociation).values(parent_id=row[0], child_id=new_component_id,
+                                                           postfix=component_dict['parents_postfixes'][g])
+                await session.execute(stmt)
+                await session.commit()  # можно сделать после цикла?
+            g += 1
         except Exception:
             # УДАЛИТЬ СОЗДАННЫЙ КОМПОНЕНТ
             raise HTTPException(status_code=500, detail={

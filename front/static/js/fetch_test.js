@@ -16,6 +16,7 @@ async function upload_system(id) {
             let div = document.getElementById('component-list-group');
             div.innerHTML = '';
             let textArray = data['child'];
+
             //список компонентов слева
             for (let i = 0; i < textArray.length; i++) {
                 // Create new link element
@@ -32,6 +33,10 @@ async function upload_system(id) {
                 a.appendChild(span);
                 // Append the link to the div
                 div.appendChild(a);
+            }
+            if (textArray.length) {
+                //говнокод
+                document.getElementById(textArray[0]['id'].toString()).click();
             }
         })
         .catch(error => {
@@ -59,6 +64,8 @@ async function upload_component(event) {
             return response.json();
         })
         .then(data => {
+            console.log(JSON.stringify(data));
+
             cur_component = data['id']; //говнокод
 
             let area = document.getElementById('component-data-area');
@@ -183,38 +190,112 @@ async function upload_component(event) {
             document.getElementById('btn-go-to-component').addEventListener('click', function () {
                 upload_system(cur_component);
             });
-            //таблица компонентов
             let tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
-            let components = data["child"]; //list
-            //вставка компонентов
-            for (let i = 0; i < components.length; i++) {
+            let thead = document.getElementById('table-head');
+            thead.innerHTML = '';
+
+
+            //таблица компонентов
+            if (data['is_final']) {
+                //заголовок
                 let newRow = document.createElement("tr");
+                let th1 = document.createElement("th");
+                th1.textContent = "#";
+                let th2 = document.createElement("th");
+                th2.textContent = "Название";
+                let th3 = document.createElement("th");
+                th3.textContent = "Производитель";
+                newRow.appendChild(th1);
+                newRow.appendChild(th2);
+                newRow.appendChild(th3);
+                thead.appendChild(newRow);
 
-                // Create a new table header cell element
-                let th = document.createElement("th");
-                th.setAttribute("scope", "row");
-                th.textContent = (i+1).toString();
+                let materials = data['material']; //list
+                //вставка материалов
+                for (let i = 0; i < materials.length; i++) {
+                    let newRow = document.createElement("tr");
 
-                // Create a new table data cell element
-                let td1 = document.createElement("td");
-                let link = document.createElement("a");
-                link.setAttribute("class", "nav-link text-white");
-                link.setAttribute("aria-current", "page");
-                link.setAttribute("id", components[i]['id']);
-                link.textContent = components[i]['name'];
-                td1.appendChild(link);
+                    // Create a new table header cell element
+                    let th = document.createElement("th");
+                    th.setAttribute("scope", "row");
+                    th.setAttribute("class", "align-middle")
+                    let span = document.createElement("span");
+                    span.textContent = (i + 1).toString();
+                    th.appendChild(span);
 
-                // Create a new empty table data cell element
-                let td2 = document.createElement("td");
+                    // Create a new table data cell element
+                    let td1 = document.createElement("td");
+                    let link1 = document.createElement("a");
+                    link1.setAttribute("class", "nav-link text-white");
+                    link1.setAttribute("aria-current", "page");
+                    link1.setAttribute("id", materials[i]['id']);
+                    link1.textContent = materials[i]['name'];
+                    td1.appendChild(link1);
 
-                // Append the table header cell, table data cells to the table row
-                newRow.appendChild(th);
-                newRow.appendChild(td1);
-                newRow.appendChild(td2);
+                    // Create a new empty table data cell element
+                    let td2 = document.createElement("td");
+                    let link2 = document.createElement("a");
+                    link2.setAttribute("class", "nav-link text-white");
+                    link2.setAttribute("aria-current", "page");
+                    link2.textContent = materials[i]['manufacturer'];
+                    td2.appendChild(link2);
+                    // Append the table header cell, table data cells to the table row
+                    newRow.appendChild(th);
+                    newRow.appendChild(td1);
+                    newRow.appendChild(td2);
 
-                // Append the table row to the tbody
-                tbody.appendChild(newRow);
+                    // Append the table row to the tbody
+                    tbody.appendChild(newRow);
+                }
+            } else {
+                //заголовок
+                let newRow = document.createElement("tr");
+                let th1 = document.createElement("th");
+                th1.textContent = "#";
+                let th2 = document.createElement("th");
+                th2.textContent = "Название";
+                let th3 = document.createElement("th");
+                th3.textContent = "?";
+                newRow.appendChild(th1);
+                newRow.appendChild(th2);
+                newRow.appendChild(th3);
+                thead.appendChild(newRow);
+
+                //изменить атрибуты
+                let components = data["child"]; //list
+                //вставка компонентов
+                for (let i = 0; i < components.length; i++) {
+                    let newRow = document.createElement("tr");
+
+                    // Create a new table header cell element
+                    let th = document.createElement("th");
+                    th.setAttribute("scope", "row");
+                    th.setAttribute("class", "align-middle")
+                    let span = document.createElement("span");
+                    span.textContent = (i + 1).toString();
+                    th.appendChild(span);
+
+                    // Create a new table data cell element
+                    let td1 = document.createElement("td");
+                    let link = document.createElement("a");
+                    link.setAttribute("class", "nav-link text-white");
+                    link.setAttribute("aria-current", "page");
+                    link.setAttribute("id", components[i]['id']);
+                    link.textContent = components[i]['name'];
+                    td1.appendChild(link);
+
+                    // Create a new empty table data cell element
+                    let td2 = document.createElement("td");
+
+                    // Append the table header cell, table data cells to the table row
+                    newRow.appendChild(th);
+                    newRow.appendChild(td1);
+                    newRow.appendChild(td2);
+
+                    // Append the table row to the tbody
+                    tbody.appendChild(newRow);
+                }
             }
 
         })

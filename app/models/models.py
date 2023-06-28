@@ -55,6 +55,15 @@ class Component(Base):
     creator_id = mapped_column(Integer)
     date = mapped_column(TIMESTAMP)
     data = mapped_column(JSON, nullable=False)
+    is_final = mapped_column(Boolean, nullable=False)
+
+    parents = relationship(
+        'Component',
+        secondary='component_association',
+        primaryjoin='Component.id==ComponentAssociation.child_id',
+        secondaryjoin='Component.id==ComponentAssociation.parent_id',
+        backref='children'
+    )
 
 
 class System(Base):
@@ -62,10 +71,21 @@ class System(Base):
     parent_id = mapped_column(Integer, ForeignKey('component.id'), primary_key=True)
 
 
-parents = relationship(
-    'Component',
-    secondary='component_association',
-    primaryjoin='Component.id==ComponentAssociation.child_id',
-    secondaryjoin='Component.id==ComponentAssociation.parent_id',
-    backref='children'
-)
+class Material(Base):
+    __tablename__ = 'material'
+
+    id = mapped_column(Integer, primary_key=True)
+    name = mapped_column(String)
+    manufacturer = mapped_column(String)
+    data = mapped_column(JSON, nullable=False)
+
+
+class MaterialAssociation(Base):
+    __tablename__ = 'material_association'
+
+    component_id = mapped_column(Integer, ForeignKey('component.id'), primary_key=True)
+    material_id = mapped_column(Integer, ForeignKey('material.id'), primary_key=True)
+
+    # Relationships
+    component = relationship('Component', backref='material_associations')
+    material = relationship('Material', backref='component_associations')

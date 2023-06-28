@@ -9,6 +9,8 @@ class componentCreate(BaseModel):
     description: str
     creator_id: int
     date: datetime
+    names_of_parents: list
+    parents_postfixes: list
     names_of_heirs: list
     data: dict
 

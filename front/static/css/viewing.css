@@ -1,13 +1,11 @@
-/* Inter REgular */
+/* Inter Regular */
 @font-face {
-	font-family: 'Inter'; 
-	src: url(/fonts/Inter-Regular.otf);
+  font-family: 'Inter', sans-serif;
 }
- 
+
 /* Жирный */
 @font-face {
-	font-family: 'Inter bold'; 
-	src: url(/fonts/Inter-Bold.otf);
+  font-family: 'Inter Bold', sans-serif;
 }
 
 :root {
@@ -179,8 +177,12 @@ body {
   font-family: var(--default-font-regular);
   color: var(--white);
 }
+.list-group-item:hover{
+  background-color: var(--dark-slate-gray-highlighted);
+  color: var(--transparent-white);
+}
 
-.table{
+.table {
   color: var(--white);
 }
 
@@ -188,5 +190,40 @@ body {
   object-fit: contain;
   object-position: center;
   overflow: hidden;
-  height:25vh;
+  height: 25vh;
 }
+
+/*scrollbar*/
+
+.overflow-auto::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color:  var(--transparent-black);
+}
+
+.overflow-auto::-webkit-scrollbar {
+  width: 12px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: var(--blackish-gray);
+}
+
+/*reverse buttons*/
+
+#new_button {
+  background-color: transparent;
+  border: 0;
+
+  position: absolute;
+  display: flex;
+  left:350px;
+  transition: left 0.5s ease;
+  z-index: -1;
+}
+#button_container{
+
+}
+#button_container:hover #new_button {
+            left: 10%; /*ГОВНОКОД*/
+        }

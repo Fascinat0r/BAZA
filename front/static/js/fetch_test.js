@@ -1,6 +1,14 @@
-let cur_component = 0;
+let cur_state = {};
+let cur_system = {};
+window.onpopstate = function (event) {
+    if (event.state) {
+        console.log("upload system from pop state");
+        upload_system(event.state.id, false);
+    }
+};
 
-async function upload_system(id) {
+
+async function upload_system(id, is_new) {
     console.log("Upload system");
     // Send a GET request to the server
     fetch(window.location.origin + `/ontomodel?component_id=${id}`)
@@ -11,7 +19,13 @@ async function upload_system(id) {
             return response.json();
         })
         .then(data => {
+            cur_system = data;
+            console.log("upload system new=" + is_new.toString() + cur_system["name"]);
+            if (is_new) {
+                history.pushState({id: cur_system['id']}, cur_system['name'], `?id=${cur_system['id']}`);
+            }
             document.getElementById('TextSystemName').value = data['name'];
+            document.getElementById('left-list-label').innerText = 'Компоненты';
             //название системы
             let div = document.getElementById('component-list-group');
             div.innerHTML = '';
@@ -44,14 +58,82 @@ async function upload_system(id) {
         });
 }
 
+async function reverse_event(event) {
+    let component_id = cur_state['id'];
+    await upload_reverse(component_id);
+}
+
+//говнокод, дубликация
+async function upload_reverse(id) {
+    console.log("Upload system");
+    // Send a GET request to the server
+    fetch(window.location.origin + `/ontomodel/reverse?component_id=${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            cur_system = data;
+            document.getElementById('TextSystemName').value = "Обратный ход - " + data['name'];
+            document.getElementById('left-list-label').innerText = 'Содержится в';
+            //название системы
+            let div = document.getElementById('component-list-group');
+            div.innerHTML = '';
+            let textArray = data['parent'];
+
+            //список компонентов слева
+            for (let i = 0; i < textArray.length; i++) {
+                // Create new link element
+                let a = document.createElement('a');
+                let span = document.createElement('span');
+                // Set the attributes
+                let num = textArray[i]['id'];
+                a.onclick = upload_component;
+                a.className = "list-group-item list-group-item-action d-flex flex-nowrap justify-content-between";
+                a.textContent = textArray[i]['name'];
+                a.id = num;
+                span.className = "badge btn btn-danger rounded-pill";
+                span.id = 'del_btn_' + (i + 1).toString();
+                a.appendChild(span);
+                // Append the link to the div
+                div.appendChild(a);
+            }
+            if (textArray.length) {
+                //говнокод
+                document.getElementById(textArray[0]['id'].toString()).click();
+            }
+        })
+        .catch(error => {
+            console.log('There was a problem with the fetch operation: ' + error.message);
+        });
+}
+
 async function in_start() {
     console.log(window.location.origin);
+
+    //кнопка открыть
+    document.getElementById('btn-go-to-component').addEventListener('click', async function () {
+        if (cur_state["is_final"]) {
+            document.location = "/material?id=" + cur_state['id'];
+        } else {
+            console.log("upload system from button");
+            await upload_system(cur_state['id'], true);
+        }
+    });
+
+    //кнопка обратный ход
+    document.getElementById('btn-reverse').addEventListener('click', reverse_event);
+
     // Extract the id from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
-    await upload_system(id);
+    console.log("upload system from start");
+    await upload_system(id, true);
 }
-in_start();
+
+window.onload = in_start;
 
 async function upload_component(event) {
     console.log("Upload component");
@@ -65,9 +147,7 @@ async function upload_component(event) {
         })
         .then(data => {
             console.log(JSON.stringify(data));
-
-            cur_component = data['id']; //говнокод
-
+            cur_state = data;
             let area = document.getElementById('component-data-area');
             //название компонента
             document.getElementById('TextComponentName').value = data['name'];
@@ -186,10 +266,6 @@ async function upload_component(event) {
             document.getElementById('DescriptionTextArea').value = data["description"];
             document.getElementById('DescriptionTextArea').dispatchEvent(new Event("input"));
             //левый блок компонентов
-            //кнопка открыть
-            document.getElementById('btn-go-to-component').addEventListener('click', function () {
-                upload_system(cur_component);
-            });
             let tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
             let thead = document.getElementById('table-head');
@@ -256,7 +332,7 @@ async function upload_component(event) {
                 let th2 = document.createElement("th");
                 th2.textContent = "Название";
                 let th3 = document.createElement("th");
-                th3.textContent = "?";
+                th3.textContent = "Шт";
                 newRow.appendChild(th1);
                 newRow.appendChild(th2);
                 newRow.appendChild(th3);
@@ -287,6 +363,9 @@ async function upload_component(event) {
 
                     // Create a new empty table data cell element
                     let td2 = document.createElement("td");
+                    let span1 = document.createElement("span");
+                    span1.textContent = components[i]['postfix'];
+                    td2.appendChild(span1);
 
                     // Append the table header cell, table data cells to the table row
                     newRow.appendChild(th);

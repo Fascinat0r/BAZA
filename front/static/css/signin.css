@@ -1,13 +1,11 @@
-/* Inter REgular */
+/* Inter Regular */
 @font-face {
-	font-family: 'Inter'; 
-	src: url(/fonts/Inter-Regular.otf);
+  font-family: 'Inter', sans-serif;
 }
- 
+
 /* Жирный */
 @font-face {
-	font-family: 'Inter bold'; 
-	src: url(/fonts/Inter-Bold.otf);
+  font-family: 'Inter Bold', sans-serif;
 }
 
 :root {
@@ -51,7 +49,7 @@ body {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-image: url('/img/background/bg1.png'),url('/img/background/bg2.png'),url('/img/background/bg3.png'),url('/img/background/bg4.png'),url('/img/background/bg5.png'),url('/img/background/bg6.png');
+  background-image: url('/static/img/background/bg1.png'),url('/static/img/background/bg2.png'),url('/static/img/background/bg3.png'),url('/static/img/background/bg4.png'),url('/static/img/background/bg5.png'),url('/static/img/background/bg6.png');
   background-repeat: no-repeat;
   background-position: center;
   background-position: 50% 50%;

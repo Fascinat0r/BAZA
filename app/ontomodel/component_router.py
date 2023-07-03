@@ -215,3 +215,26 @@ async def delete_connection(edge: addComponentsConnection, session: AsyncSession
         "data": {"quantity": len(result.scalars().all())},
         "details": None
     }
+
+
+@router.get("/reverse")
+async def get_components_from_the_reverse_move(component_id: int, session: AsyncSession = Depends(get_async_session)):
+    if not await isComponentWithIdExist(component_id, session):
+        raise HTTPException(status_code=400, detail={
+            "status": "error",
+            "data": None,
+            "details": f"Component with id:{component_id} does not exist"
+        })
+    query = select(Component).where(Component.id == component_id)
+    result = await session.execute(query)
+    component = result.scalars().first()
+
+    component_dict = component.__dict__
+    component_dict['parent'] = list()
+    query = select(Component.id, Component.name, ComponentAssociation.postfix).join(ComponentAssociation,
+                                                                                    Component.id == ComponentAssociation.parent_id).where(
+        ComponentAssociation.child_id == component_id).order_by(Component.name)
+    result = await session.execute(query)
+    for child in result.all():
+        component_dict['parent'].append({"id": child[0], "name": child[1], "postfix": child[2]})
+    return component_dict

@@ -209,6 +209,11 @@ body {
   background-color: var(--blackish-gray);
 }
 
+.dark-form:focus {
+  background-color: var(--transparent-black);
+  color: var(--white);
+}
+
 /*reverse buttons*/
 
 #new_button {

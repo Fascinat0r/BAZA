@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select, insert, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.auth.base_config import current_active_verified_user
 from app.database import get_async_session
 from app.models.models import Component, ComponentAssociation, MaterialAssociation, Material
 from app.ontomodel.schemas import *
@@ -10,7 +11,8 @@ from app.ontomodel.utils import isComponentWithNameExist, isComponentWithIdExist
 
 router = APIRouter(
     prefix="/mat",
-    tags=["Material"]
+    tags=["Material"],
+    dependencies=[Depends(current_active_verified_user)]
 )
 
 @router.get("")

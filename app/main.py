@@ -12,7 +12,7 @@ from app.page.page_router import router as router_page
 app = FastAPI(
     title="BAZA App"
 )
-app.mount("/static", StaticFiles(directory="C:/Users/Юля/source/repos/BAZA/front/static"), name="static")
+app.mount("/static", StaticFiles(directory="../front/static"), name="static")
 origins = [
     "http://localhost:8000"
 ]

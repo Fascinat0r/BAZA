@@ -27,19 +27,21 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
   .then(function(response) {
     if (response.ok) {
       // Request successful, handle response
-      return response.json();
+      return response;
     } else {
       // Request failed, handle error
       throw new Error('Request failed with status ' + response.status);
     }
   })
-  .then(function(data) {
-    // Handle response data
-    console.log(data);
-    // Redirect or perform other actions based on the response
-  })
   .catch(function(msg) {
     // Handle error
+     console.log("catch");
     console.log(JSON.stringify(msg));
+    if (msg.status === 204) {
+      window.location.href = "/viewing&id=52";
+    } else {
+      console.log(msg);
+    }
   });
 });
+

@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from app.auth.base_config import current_active_verified_user
 from app.models.models import User
 
-templates = Jinja2Templates(directory="C:/Users/Юля/source/repos/BAZA/front/templates")
+templates = Jinja2Templates(directory="../front/templates")
 router = APIRouter(
     tags=["Pages"]
 )

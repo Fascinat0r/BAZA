@@ -1,13 +1,11 @@
-import sqlalchemy.exc
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select, insert, update, delete
+from fastapi import APIRouter, Depends
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.base_config import current_active_verified_user
 from app.database import get_async_session
-from app.models.models import Component, ComponentAssociation, MaterialAssociation, Material
+from src.app.models.models import Material
 from app.ontomodel.schemas import *
-from app.ontomodel.utils import isComponentWithNameExist, isComponentWithIdExist
 
 router = APIRouter(
     prefix="/mat",

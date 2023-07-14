@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.base_config import current_active_verified_user, current_admin
 from app.database import get_async_session
-from app.models.models import Component, ComponentAssociation, MaterialAssociation, Material, User
+from src.app.models.models import Component, ComponentAssociation, MaterialAssociation, Material, User
 from app.ontomodel.schemas import *
 from app.ontomodel.utils import isComponentWithNameExist, isComponentWithIdExist
 

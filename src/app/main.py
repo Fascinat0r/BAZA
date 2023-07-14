@@ -8,7 +8,7 @@ from app.auth.schemas import UserRead, UserCreate, UserUpdate
 from app.ontomodel.component_router import router as router_component
 from app.ontomodel.material_router import router as router_material
 from app.ontomodel.system_router import router as router_system
-from app.page.page_router import router as router_page
+from src.app.page.page_router import router as router_page
 app = FastAPI(
     title="BAZA App"
 )

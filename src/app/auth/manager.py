@@ -2,12 +2,11 @@ from typing import Optional
 
 from fastapi import Depends, Request, Response
 from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models, schemas
-from fastapi.responses import HTMLResponse, RedirectResponse
-import starlette.status as status
+from fastapi.responses import RedirectResponse
 
 from app.auth.utils import get_user_db
 from app.config import SECRET_AUTH
-from app.models.models import User
+from src.app.models.models import User
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):

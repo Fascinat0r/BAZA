@@ -2,7 +2,7 @@ from fastapi import Request, APIRouter, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from app.auth.base_config import current_active_verified_user, current_admin
-from app.models.models import User
+from src.app.models.models import User
 
 templates = Jinja2Templates(directory="../front/templates")
 router = APIRouter(

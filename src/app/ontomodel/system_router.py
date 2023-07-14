@@ -3,7 +3,7 @@ from sqlalchemy import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_async_session
-from app.models.models import System
+from src.app.models.models import System
 from app.ontomodel.utils import isComponentWithIdExist
 
 router = APIRouter(

@@ -14,9 +14,8 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
   requestBody.append('scope', '');
   requestBody.append('client_id', '');
   requestBody.append('client_secret', '');
-
   // Send request to server
-  fetch(location.hostname+'/auth/login', {
+  fetch(location.origin + '/auth/login', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',

@@ -3,9 +3,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select, insert, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.auth.base_config import current_active_verified_user
+from app.auth.base_config import current_active_verified_user, current_admin
 from app.database import get_async_session
-from app.models.models import Component, ComponentAssociation, MaterialAssociation, Material
+from app.models.models import Component, ComponentAssociation, MaterialAssociation, Material, User
 from app.ontomodel.schemas import *
 from app.ontomodel.utils import isComponentWithNameExist, isComponentWithIdExist
 
@@ -17,7 +17,8 @@ router = APIRouter(
 
 
 @router.get("")
-async def get_components_by_id(component_id: int, session: AsyncSession = Depends(get_async_session)):
+async def get_components_by_id(component_id: int, session: AsyncSession = Depends(get_async_session),
+                               user: User = Depends(current_active_verified_user)):
     # try:
     query = select(Component).where(Component.id == component_id)
     result = await session.execute(query)
@@ -53,7 +54,8 @@ async def get_components_by_id(component_id: int, session: AsyncSession = Depend
 
 
 @router.get("/name")
-async def get_components_by_name(component_name: str, session: AsyncSession = Depends(get_async_session)):
+async def get_components_by_name(component_name: str, session: AsyncSession = Depends(get_async_session),
+                                 user: User = Depends(current_active_verified_user)):
     try:
         # Query the database for components with the specified name
         query = select(Component).where(Component.name == str(component_name.strip()))
@@ -69,7 +71,8 @@ async def get_components_by_name(component_name: str, session: AsyncSession = De
 
 
 @router.post("/add")
-async def add_specific_component(new_component: componentCreate, session: AsyncSession = Depends(get_async_session)):
+async def add_specific_component(new_component: componentCreate, session: AsyncSession = Depends(get_async_session),
+                                 user: User = Depends(current_admin)):
     component_dict = new_component.dict()
     # Сheck that this name is not occupied
     if await isComponentWithNameExist(str(component_dict['name']), session):
@@ -150,7 +153,8 @@ async def add_specific_component(new_component: componentCreate, session: AsyncS
 
 
 @router.post("/update")
-async def update_component(updating_component: componentUpdate, session: AsyncSession = Depends(get_async_session)):
+async def update_component(updating_component: componentUpdate, session: AsyncSession = Depends(get_async_session),
+                           user: User = Depends(current_active_verified_user)):
     component_dict = updating_component.dict()
     # Check that this name is not occupied
     if not await isComponentWithIdExist(int(component_dict['id']), session):
@@ -174,7 +178,8 @@ async def update_component(updating_component: componentUpdate, session: AsyncSe
 
 
 @router.post("/connect")
-async def add_connection(edge: addComponentsConnection, session: AsyncSession = Depends(get_async_session)):
+async def add_connection(edge: addComponentsConnection, session: AsyncSession = Depends(get_async_session),
+                         user: User = Depends(current_admin)):
     if not await isComponentWithIdExist(edge.parent_id, session):
         raise HTTPException(status_code=400, detail={
             "status": "error",
@@ -206,7 +211,8 @@ async def add_connection(edge: addComponentsConnection, session: AsyncSession = 
 
 
 @router.post("/disconnect")
-async def delete_connection(edge: addComponentsConnection, session: AsyncSession = Depends(get_async_session)):
+async def delete_connection(edge: addComponentsConnection, session: AsyncSession = Depends(get_async_session),
+                            user: User = Depends(current_admin)):
     stmt = delete(ComponentAssociation).where(ComponentAssociation.parent_id == edge.parent_id,
                                               ComponentAssociation.child_id == edge.child_id).returning(
         ComponentAssociation.parent_id)
@@ -220,7 +226,8 @@ async def delete_connection(edge: addComponentsConnection, session: AsyncSession
 
 
 @router.get("/reverse")
-async def get_components_from_the_reverse_move(component_id: int, session: AsyncSession = Depends(get_async_session)):
+async def get_components_from_the_reverse_move(component_id: int, session: AsyncSession = Depends(get_async_session),
+                                               user: User = Depends(current_active_verified_user)):
     if not await isComponentWithIdExist(component_id, session):
         raise HTTPException(status_code=400, detail={
             "status": "error",

@@ -26,3 +26,4 @@ fastapi_users = FastAPIUsers[User, int](
 
 current_user = fastapi_users.current_user()
 current_active_verified_user = fastapi_users.current_user(active=True, verified=True)
+current_admin = fastapi_users.current_user(active=True, verified=True, superuser=True)

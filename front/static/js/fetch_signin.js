@@ -33,6 +33,13 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
       throw new Error('Request failed with status ' + response.status);
     }
   })
+  .then(function(response) {
+    console.log("then");
+    console.log(JSON.stringify(JSON.stringify(response.json())));
+    // Handle response data
+    /* ... */
+    // Redirect or perform other actions based on the response
+  })
   .catch(function(msg) {
     // Handle error
      console.log("catch");

@@ -1,7 +1,7 @@
 from fastapi import Request, APIRouter, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from app.auth.base_config import current_active_verified_user
+from app.auth.base_config import current_active_verified_user, current_admin
 from app.models.models import User
 
 templates = Jinja2Templates(directory="../front/templates")
@@ -11,8 +11,7 @@ router = APIRouter(
 
 
 @router.get("/viewing-save", response_class=HTMLResponse)
-def protected_route(request: Request, user: User = Depends(current_active_verified_user)):
-    print("Hello, " + user.email)
+def protected_route(request: Request, user: User = Depends(current_admin)):
     return templates.TemplateResponse("viewing_save.html", {"request": request})
 
 
@@ -22,7 +21,7 @@ async def read_item(request: Request, id: str, user: User = Depends(current_acti
 
 
 @router.get("/material-save", response_class=HTMLResponse)
-async def read_item(request: Request, user: User = Depends(current_active_verified_user)):
+async def read_item(request: Request, user: User = Depends(current_admin)):
     return templates.TemplateResponse("material-save.html", {"request": request})
 
 

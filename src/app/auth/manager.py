@@ -6,7 +6,7 @@ from fastapi.responses import RedirectResponse
 
 from app.auth.utils import get_user_db
 from app.config import SECRET_AUTH
-from src.app.models.models import User
+from app.models.models import User
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):

@@ -16,7 +16,7 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
   requestBody.append('client_secret', '');
 
   // Send request to server
-  fetch('http://127.0.0.1:8000/auth/login', {
+  fetch(location.hostname+'/auth/login', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -35,20 +35,25 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
   })
   .then(function(response) {
     console.log("then");
-    console.log(JSON.stringify(JSON.stringify(response.json())));
+    console.log();
     // Handle response data
     /* ... */
+    if (response.status === 204) {
+      window.location.href = "/viewing?id=52";
+    } else {
+      console.log(response);
+    }
     // Redirect or perform other actions based on the response
   })
-  .catch(function(msg) {
-    // Handle error
-     console.log("catch");
-    console.log(JSON.stringify(msg));
-    if (msg.status === 204) {
-      window.location.href = "/viewing&id=52";
-    } else {
-      console.log(msg);
-    }
-  });
+      .catch(function (response) {
+        // Handle error
+        console.log("catch");
+        console.log(JSON.stringify(response));
+        if (response.status === 204) {
+          window.location.href = "/viewing?id=52";
+        } else {
+          console.log(response);
+        }
+      });
 });
 

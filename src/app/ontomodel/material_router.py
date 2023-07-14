@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.base_config import current_active_verified_user
 from app.database import get_async_session
-from src.app.models.models import Material
+from app.models.models import Material
 from app.ontomodel.schemas import *
 
 router = APIRouter(

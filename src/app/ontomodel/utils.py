@@ -1,6 +1,6 @@
 from sqlalchemy import select
 
-from src.app.models.models import *
+from app.models.models import *
 
 
 async def isComponentWithIdExist(component_id: int, session):

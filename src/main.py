@@ -1,4 +1,3 @@
-import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -50,6 +49,3 @@ app.include_router(router_component)
 app.include_router(router_system)
 app.include_router(router_page)
 app.include_router(router_material)
-
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", reload=True)

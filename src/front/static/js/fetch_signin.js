@@ -14,6 +14,12 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
   requestBody.append('scope', '');
   requestBody.append('client_id', '');
   requestBody.append('client_secret', '');
+
+  function show_validation() {
+    let form = document.getElementById('user-form');
+    form.classList.add("was-validated");
+  }
+
   // Send request to server
   fetch(location.origin + '/auth/login', {
     method: 'POST',
@@ -34,6 +40,8 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
           case 400:
             alert("Неверный логин или пароль.\nПопробуйте снова");
             break;
+          case 422:
+          show_validation();
           case 500:
             alert("Неизвестная ошибка на стороне сервера.\nПопробуйте позже");
             break;
@@ -58,14 +66,15 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
         // Handle error
         console.log("catch");
         console.log(JSON.stringify(response));
-        if (response.status === 204) {
-          window.location.href = "/viewing?id=52";
-        } else {
-          console.log(response);
-        }
         switch (response.status) {
           case 204:
             window.location.href = "/viewing?id=52";
+            break;
+          case 400:
+            alert("Неверный логин или пароль.\nПопробуйте снова");
+            break;
+          case 500:
+            alert("Неизвестная ошибка на стороне сервера.\nПопробуйте позже");
             break;
         }
       });

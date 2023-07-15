@@ -29,6 +29,16 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
       return response;
     } else {
       // Request failed, handle error
+
+      switch (response.status) {
+          case 400:
+            alert("Неверный логин или пароль.\nПопробуйте снова");
+            break;
+          case 500:
+            alert("Неизвестная ошибка на стороне сервера.\nПопробуйте позже");
+            break;
+        }
+
       throw new Error('Request failed with status ' + response.status);
     }
   })
@@ -52,6 +62,11 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
           window.location.href = "/viewing?id=52";
         } else {
           console.log(response);
+        }
+        switch (response.status) {
+          case 204:
+            window.location.href = "/viewing?id=52";
+            break;
         }
       });
 });

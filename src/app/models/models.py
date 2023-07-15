@@ -13,7 +13,7 @@ class Base(DeclarativeBase):
 role = Table(
     "role",
     Base.metadata,
-    Column("id", Integer, primary_key=True),
+    Column("role_id", Integer, primary_key=True),
     Column("name", String, nullable=False),
     Column("permissions", JSON),
 )
@@ -23,7 +23,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     id = Column(Integer, primary_key=True)
     username = Column(String, nullable=False)
     registered_at = Column(TIMESTAMP, default=datetime.utcnow)
-    role_id = Column(Integer, ForeignKey(role.c.id))
+    role_id = Column(Integer, ForeignKey(role.c.role_id))
     email: Mapped[str] = mapped_column(
         String(length=320), unique=True, index=True, nullable=False
     )

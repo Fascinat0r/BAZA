@@ -1,9 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+import redis.asyncio as aioredis
 
 from app.auth.base_config import auth_backend, fastapi_users
 from app.auth.schemas import UserRead, UserCreate, UserUpdate
+from app.config import REDIS_HOST, REDIS_PORT
 from app.ontomodel.component_router import router as router_component
 from app.ontomodel.material_router import router as router_material
 from app.ontomodel.system_router import router as router_system
@@ -49,3 +53,9 @@ app.include_router(router_component)
 app.include_router(router_system)
 app.include_router(router_page)
 app.include_router(router_material)
+
+
+@app.on_event("startup")
+async def startup_event():
+    redis = aioredis.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}", encoding="utf8", decode_responses=True)
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")

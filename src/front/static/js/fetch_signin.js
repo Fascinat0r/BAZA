@@ -58,14 +58,15 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
         // Handle error
         console.log("catch");
         console.log(JSON.stringify(response));
-        if (response.status === 204) {
-          window.location.href = "/viewing?id=52";
-        } else {
-          console.log(response);
-        }
         switch (response.status) {
           case 204:
             window.location.href = "/viewing?id=52";
+            break;
+          case 400:
+            alert("Неверный логин или пароль.\nПопробуйте снова");
+            break;
+          case 500:
+            alert("Неизвестная ошибка на стороне сервера.\nПопробуйте позже");
             break;
         }
       });

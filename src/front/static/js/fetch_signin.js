@@ -36,17 +36,6 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
     } else {
       // Request failed, handle error
 
-      switch (response.status) {
-          case 400:
-            alert("Неверный логин или пароль.\nПопробуйте снова");
-            break;
-          case 422:
-          show_validation();
-          case 500:
-            alert("Неизвестная ошибка на стороне сервера.\nПопробуйте позже");
-            break;
-        }
-
       throw new Error('Request failed with status ' + response.status);
     }
   })
@@ -68,15 +57,26 @@ document.getElementById('btn-signin').addEventListener('click', function(event) 
         console.log(JSON.stringify(response));
         switch (response.status) {
           case 204:
+            hide_alert();
             window.location.href = "/viewing?id=52";
             break;
           case 400:
-            alert("Неверный логин или пароль.\nПопробуйте снова");
+            show_alert("Неверный логин или пароль.\nПопробуйте снова");
             break;
           case 500:
-            alert("Неизвестная ошибка на стороне сервера.\nПопробуйте позже");
+            show_alert("Неизвестная ошибка на стороне сервера.\nПопробуйте позже");
             break;
         }
       });
 });
 
+
+let alertbox = document.getElementById('alert-box');
+function show_alert(str){
+  alertbox.innerText = str;
+  alertbox.hidden = false;
+}
+
+function  hide_alert(){
+  alertbox.hidden = true;
+}
